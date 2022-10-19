@@ -1,7 +1,7 @@
 import  connection from '../database/db.js'
 
 
-async function postCakesRepository(name, price, image, description){
+async function postCakesRepository({name, price, image, description}){
   const queryCakes =  await connection.query(
     `
       INSERT INTO cakes (
@@ -16,4 +16,13 @@ async function postCakesRepository(name, price, image, description){
   )
   return queryCakes
 }
-export { postCakesRepository }
+
+async function getCakesRepository(cakeId){
+  const queryCakes =  await connection.query(
+    `
+      select * from cakes where id = ${cakeId}
+    ` 
+  )
+  return queryCakes
+}
+export { postCakesRepository, getCakesRepository }
