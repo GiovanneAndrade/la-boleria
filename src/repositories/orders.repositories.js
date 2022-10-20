@@ -1,10 +1,28 @@
 import  connection from '../database/db.js'
 
 
-async function getOrderRepository(){
+async function getDateOrderRepository(){
   const queryOrders = await connection.query(
     `
-      SELECT * FROM orders;
+      select 
+        clients.id,
+        clients.name,
+        clients.address, 
+        clients.phone, 
+        cakes.id as cakeId, 
+        cakes.name,
+        cakes.price,
+        cakes.description,
+        cakes.image,
+        orders.id as orderId,
+        orders."createdAt",
+        orders."quantity",
+        orders."totalPrice"
+     from cakes  
+      inner join orders
+      on cakes.id = orders."cakeId"
+      inner join  clients
+      on clients.id = orders."clientId" where orders."createdAt" = '2022-10-20 19:32:00';
     `
   )
   return queryOrders
@@ -39,6 +57,6 @@ async function getClientsOrdersRepository(id){
   return queryOrders
 }
 
-export { getOrderRepository, postOrderRepository, getClientsOrdersRepository }
+export { getDateOrderRepository, postOrderRepository, getClientsOrdersRepository }
 
  
