@@ -1,12 +1,9 @@
 import  connection from '../database/db.js'
 
-
-async function getDateOrderRepository(dateOrId,queryDateOrId){
- 
-
+async function getDateOrderRepository(queryDateOrId, dateOrId){
   const queryOrders = await connection.query(
     `
-      SELECT 
+      SELECT
         clients.id,
         clients.name,
         clients.address, 
@@ -34,12 +31,12 @@ async function getDateOrderRepository(dateOrId,queryDateOrId){
 async function postOrderRepository({clientId, cakeId, quantity,createdAt,totalPrice}){
   const queryOrders = await connection.query(
     `
-     INSERT INTO orders (
-      "clientId", 
-      "cakeId", 
-      quantity,
-      "createdAt",
-      "totalPrice"
+      INSERT INTO orders (
+        "clientId", 
+        "cakeId", 
+        quantity,
+        "createdAt",
+        "totalPrice"
       )
        VALUES ($1, $2, $3, $4, $5)
     `,
@@ -48,24 +45,7 @@ async function postOrderRepository({clientId, cakeId, quantity,createdAt,totalPr
   return queryOrders
 }
 
-async function getClientsOrdersRepository(id){
-  const queryOrders = await connection.query(
-    `
-    SELECT 
-      orders.id AS "orderId", 
-      orders.quantity, 
-      orders."createdAt", 
-      orders."totalPrice", 
-      cakes."name" AS "cakeName" 
-        FROM cakes
-      INNER JOIN orders
-        ON cakes.id = orders."cakeId" 
-      WHERE orders.id = ${id};
-    ` 
-  )
-  return queryOrders
-}
 
-export { getDateOrderRepository, postOrderRepository, getClientsOrdersRepository }
+export { getDateOrderRepository, postOrderRepository }
 
  

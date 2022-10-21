@@ -15,5 +15,23 @@ async function postClientsRepository({ name, address, phone }){
   )
   return queryClients
 }
-export { postClientsRepository }
+
+async function getClientsOrdersRepository(id){
+  const queryOrders = await connection.query(
+    `
+    SELECT 
+      orders.id AS "orderId", 
+      orders.quantity, 
+      orders."createdAt", 
+      orders."totalPrice", 
+      cakes."name" AS "cakeName" 
+        FROM cakes
+      INNER JOIN orders
+        ON cakes.id = orders."cakeId" 
+      WHERE orders.id = ${id};
+    ` 
+  )
+  return queryOrders
+}
+export { postClientsRepository, getClientsOrdersRepository }
 

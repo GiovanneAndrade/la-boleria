@@ -6,7 +6,8 @@ import dayjs from 'dayjs'
 async function queryOrdersController (dateOrId,queryDateOrId){
  
   const queryOrders = await allOrders.getDateOrderRepository(dateOrId, queryDateOrId)
-  const ordersList = queryOrders.rows.map(
+ 
+   const ordersList = queryOrders.rows.map(
     i => (
       {
         clients: {
@@ -28,7 +29,8 @@ async function queryOrdersController (dateOrId,queryDateOrId){
         totalPrice: i.totalPrice
       }
     )
-)
+ )  
+
    return ordersList
 }
 
@@ -50,7 +52,9 @@ async function getIddOrdersController (req, res) {
   let dateOrId = id
   const queryDateOrId = `clients.id`
    try {
-     const ordersList = await queryOrdersController(dateOrId,queryDateOrId)
+     const ordersList = await queryOrdersController(queryDateOrId,dateOrId)
+   
+   
      return res.send(ordersList)
    } catch (error) {
      return res.sendStatus(500).send(error)
@@ -65,28 +69,19 @@ async function postOrdersController(req, res) {
   const createdAt = dayjs().format('DD-MM-YYYY HH:mm')
   
   try {
-    const queryOrders = await allOrders.postOrderRepository({clientId, cakeId, quantity,createdAt,totalPrice})
+    const queryOrders = await allOrders.postOrderRepository(
+      { clientId, cakeId, quantity, createdAt,totalPrice }
+    )
     return res.sendStatus(201)
   } catch (error) {
     return res.sendStatus(500).send(error)
   }
 }
 
-async function getClientsOrdersController(req, res) {
-  const { id } = req.params
- console.log(id)
-  try {
-    const queryOrders = await allOrders.getClientsOrdersRepository(id)
-    return res.send(queryOrders.rows)
-  } catch (error) {
-    return res.sendStatus(500).send(error)
-  }
-}
 
 export { 
   getDateOrdersController,
   postOrdersController, 
-  getClientsOrdersController, 
   getIddOrdersController 
  }
 

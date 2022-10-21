@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { 
-  getClientsOrdersController, 
   getIddOrdersController, 
   getDateOrdersController, 
   postOrdersController 
@@ -8,9 +7,10 @@ import {
 
 const router = Router();
 
+router.post('/order', postOrdersController)
 router.get('/orders', getDateOrdersController)
 router.get('/orders/:id', getIddOrdersController)
-router.post('/orders', postOrdersController)
-router.get('/clients/:id/orders', getClientsOrdersController)
+
+
 
 export default router
