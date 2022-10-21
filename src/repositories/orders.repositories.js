@@ -1,29 +1,31 @@
 import  connection from '../database/db.js'
 
 
-async function getDateOrderRepository(){
+async function getDateOrderRepository(dateOrId,queryDateOrId){
+ 
+
   const queryOrders = await connection.query(
     `
-      select 
+      SELECT 
         clients.id,
         clients.name,
         clients.address, 
         clients.phone, 
-        cakes.id as cakeId, 
-        cakes.name,
-        cakes.price,
-        cakes.description,
-        cakes.image,
-        orders.id as orderId,
-        orders."createdAt",
-        orders."quantity",
-        orders."totalPrice"
-     from cakes  
-      inner join orders
+          cakes.id as cakeId, 
+          cakes.name,
+          cakes.price,
+          cakes.description,
+          cakes.image,
+            orders.id as orderId,
+            orders."createdAt",
+            orders."quantity",
+            orders."totalPrice"
+     FROM cakes  
+      INNER JOIN orders
       on cakes.id = orders."cakeId"
-      inner join  clients
-      on clients.id = orders."clientId" where orders."createdAt" = '2022-10-20 19:32:00';
-    `
+      INNER JOIN  clients
+      on clients.id = orders."clientId" WHERE ${queryDateOrId} = $1;
+    `,[dateOrId]
   )
   return queryOrders
 }
@@ -49,9 +51,16 @@ async function postOrderRepository({clientId, cakeId, quantity,createdAt,totalPr
 async function getClientsOrdersRepository(id){
   const queryOrders = await connection.query(
     `
-    select  orders.id AS "orderId", orders.quantity, orders."createdAt", orders."totalPrice", cakes."name" AS "cakeName" from cakes
-    inner join orders
-    on cakes.id = orders."cakeId" where orders.id = ${id};
+    SELECT 
+      orders.id AS "orderId", 
+      orders.quantity, 
+      orders."createdAt", 
+      orders."totalPrice", 
+      cakes."name" AS "cakeName" 
+        FROM cakes
+      INNER JOIN orders
+        ON cakes.id = orders."cakeId" 
+      WHERE orders.id = ${id};
     ` 
   )
   return queryOrders
