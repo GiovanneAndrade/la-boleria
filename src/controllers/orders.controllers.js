@@ -64,13 +64,14 @@ async function getIddOrdersController (req, res) {
 
 async function postOrdersController(req, res) {
   const { clientId, cakeId, quantity } = req.body
+
   const queryCakeId = await allCakes.getCakesRepository( cakeId )
   let totalPrice = (Number(queryCakeId.rows[0].price) * quantity)
   const createdAt = dayjs().format('DD-MM-YYYY HH:mm')
   
   try {
     const queryOrders = await allOrders.postOrderRepository(
-      { clientId, cakeId, quantity, createdAt,totalPrice }
+      { clientId, cakeId, quantity, createdAt, totalPrice }
     )
     return res.sendStatus(201)
   } catch (error) {

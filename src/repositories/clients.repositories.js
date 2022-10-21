@@ -33,5 +33,14 @@ async function getClientsOrdersRepository(id){
   )
   return queryOrders
 }
-export { postClientsRepository, getClientsOrdersRepository }
+
+async function getClientsRepository(clientId){
+  const queryCLients =  await connection.query(
+    `
+      select * from clients where id = ${clientId}
+    ` 
+  )
+  return queryCLients
+}
+export { postClientsRepository, getClientsOrdersRepository, getClientsRepository }
 
