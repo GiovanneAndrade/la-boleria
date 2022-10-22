@@ -17,12 +17,12 @@ async function postCakesRepository({name, price, image, description}){
   return queryCakes
 }
 
-async function getCakesRepository(cakeId){
+async function getCakesRepository({nameOrId, cakeIdOrname}){
   const queryCakes =  await connection.query(
     `
-      select * from cakes where id = ${cakeId}
-    ` 
+      select * from cakes where ${nameOrId} = $1;
+    `,[cakeIdOrname]
   )
   return queryCakes
 }
-export { postCakesRepository, getCakesRepository }
+export { postCakesRepository, getCakesRepository } 

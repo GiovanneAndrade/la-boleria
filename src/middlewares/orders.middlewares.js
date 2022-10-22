@@ -4,17 +4,20 @@ import * as allClients from '../repositories/clients.repositories.js'
 
 async function postOrdersMiddlewares (req, res, next) {
   const { clientId, cakeId, quantity } = req.body
-
+ const  cakeIdOrname = cakeId
+ 
+ const nameOrId = 'id'
+ 
   const validateOrder = postOrderSchema.validate(req.body, {abortEarly: false})
   try {
     if(validateOrder.error){
       const erro = validateOrder.error.details.map((err) => err.message)
       return res.status(400).send(erro)
     }
-    const queryCakeId = await allCakes.getCakesRepository( cakeId ) 
+    const queryCakeId = await allCakes.getCakesRepository( {nameOrId, cakeIdOrname} ) 
     if(queryCakeId.rows.length === 0) return res.sendStatus(404) 
     const queryClients = await allClients.getClientsRepository( clientId ) 
-    if(queryClients.rows.length === 0) return res.sendStatus(404) 
+    if(queryClients.rows.length === 0) return res.sendStatus(404)   
    
   } catch (error) {
     return res.sendStatus(500).send(error)

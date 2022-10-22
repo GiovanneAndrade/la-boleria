@@ -64,11 +64,11 @@ async function getIddOrdersController (req, res) {
 
 async function postOrdersController(req, res) {
   const { clientId, cakeId, quantity } = req.body
-
-  const queryCakeId = await allCakes.getCakesRepository( cakeId )
+  const  cakeIdOrname = cakeId
+  const nameOrId = 'id'
+  const queryCakeId = await allCakes.getCakesRepository( {cakeIdOrname, nameOrId} )
   let totalPrice = (Number(queryCakeId.rows[0].price) * quantity)
   const createdAt = dayjs().format('DD-MM-YYYY HH:mm')
-  
   try {
     const queryOrders = await allOrders.postOrderRepository(
       { clientId, cakeId, quantity, createdAt, totalPrice }
