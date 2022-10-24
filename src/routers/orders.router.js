@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { postOrdersMiddlewares } from "../middlewares/orders.middlewares.js";
+import { getDatedOrdersMiddlewares, getIddOrdersMiddlewares, postOrdersMiddlewares } from "../middlewares/orders.middlewares.js";
 import { 
   getIddOrdersController, 
   getDateOrdersController, 
@@ -10,8 +10,8 @@ import {
 const router = Router();
 
 router.post('/order', postOrdersMiddlewares, postOrdersController)
-router.get('/orders', getDateOrdersController)
-router.get('/orders/:id', getIddOrdersController)
+router.get('/orders', getDatedOrdersMiddlewares, getDateOrdersController)
+router.get('/orders/:id', getIddOrdersMiddlewares, getIddOrdersController)
 
 
 

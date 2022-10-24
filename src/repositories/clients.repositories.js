@@ -28,7 +28,8 @@ async function getClientsOrdersRepository(id){
         FROM cakes
       INNER JOIN orders
         ON cakes.id = orders."cakeId" 
-      WHERE orders.id = ${id};
+      INNER JOIN  clients
+      on clients.id = orders."clientId" WHERe clients.id = ${id};
     ` 
   )
   return queryOrders
@@ -43,4 +44,10 @@ async function getClientsRepository(clientId){
   return queryCLients
 }
 export { postClientsRepository, getClientsOrdersRepository, getClientsRepository }
+
+
+
+
+ 
+
 

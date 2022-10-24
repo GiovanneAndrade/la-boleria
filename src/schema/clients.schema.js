@@ -6,4 +6,6 @@ address: joi.string().trim().required(),
 phone: joi.string().min(10).max(11).required()
 })
 
-export default postClientSchema;
+
+export { postClientSchema };
+

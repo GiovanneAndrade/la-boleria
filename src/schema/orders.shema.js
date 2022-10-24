@@ -6,4 +6,12 @@ const postOrderSchema = joi.object({
     quantity: joi.number().min(1).max(5).required(),
 })
 
-export default postOrderSchema;
+const getOrderSchema = joi.object({
+    id: joi.number().required()
+})
+const getClientSchema = joi.object({
+    date: joi.string().min(10).max(10)
+ })
+  
+
+export { postOrderSchema, getOrderSchema, getClientSchema}

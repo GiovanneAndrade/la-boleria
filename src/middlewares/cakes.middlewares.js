@@ -11,7 +11,7 @@ async function postOrdersMiddlewares (req, res, next) {
       return res.status(400).send(erro)
     }
     const queryCakeId = await allCakes.getCakesRepository( {nameOrId, cakeIdOrname }) 
-    if(queryCakeId.rows.length > 0) return res.sendStatus(404) 
+    if(queryCakeId.rows.length > 0) return res.sendStatus(409) 
   } catch (error) {
     return res.sendStatus(500).send(error)
   }

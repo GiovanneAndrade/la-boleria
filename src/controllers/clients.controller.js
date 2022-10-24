@@ -13,13 +13,9 @@ async function postClients (req, res) {
 
 async function getClientsOrdersController(req, res) {
   const { id } = req.params
-  let idConvert = Number(id)
-  if(!idConvert) return res.status(404).send('id is required')
+   
   try {
     const queryOrders = await allClients.getClientsOrdersRepository(id)
-    if(!queryOrders.rows.length){
-     return res.sendStatus(404) 
-    }
     console.log(queryOrders.rows)
     return res.send(queryOrders.rows)
   } catch (error) {
