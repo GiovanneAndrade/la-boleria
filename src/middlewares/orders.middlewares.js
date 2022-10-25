@@ -4,8 +4,8 @@ import * as allClients from '../repositories/clients.repositories.js'
 
 async function postOrdersMiddlewares (req, res, next) {
   const { clientId, cakeId, quantity } = req.body
- const  cakeIdOrname = cakeId
  
+ const  cakeIdOrname = cakeId
  const nameOrId = 'id'
  
   const validateOrder = postOrderSchema.validate(req.body, {abortEarly: false})
