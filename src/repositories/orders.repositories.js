@@ -1,7 +1,6 @@
 import  connection from '../database/db.js'
 
 async function getDateOrderRepository({queryDateOrId, dateOrId}){
-  console.log(dateOrId)
   const queryOrders = await connection.query(
     `
       SELECT
