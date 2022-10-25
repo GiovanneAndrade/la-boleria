@@ -2,7 +2,6 @@ import * as allClients from '../repositories/clients.repositories.js'
 
 async function postClients (req, res) {
   const { name, address, phone } = req.body
-  console.log(req.body)
   try {
     const queryClients = await allClients.postClientsRepository({ name, address, phone })
     return res.sendStatus(201)
@@ -16,7 +15,7 @@ async function getClientsOrdersController(req, res) {
    
   try {
     const queryOrders = await allClients.getClientsOrdersRepository(id)
-    console.log(queryOrders.rows)
+    if(queryOrders.rows.length === 0) return res.status(404).send('não existe pedidos para esse cliente')
     return res.send(queryOrders.rows)
   } catch (error) {
     return res.sendStatus(500).send(error)

@@ -42,7 +42,8 @@ async function getDateOrdersController(req, res) {
  const queryDateOrId = `date (orders."createdAt")`
   try {
     const ordersList = await queryOrdersController({dateOrId,queryDateOrId})
-    
+    if(ordersList.length === 0) return res.status(404).send(ordersList)
+         
     return res.send(ordersList)
   } catch (error) {
     return res.sendStatus(500).send(error)
@@ -58,7 +59,6 @@ async function getIddOrdersController (req, res) {
    try {
      const ordersList = await queryOrdersController({queryDateOrId,dateOrId})
      if(ordersList.length === 0) return res.sendStatus(404)
-    console.log(ordersList)
      return res.send(ordersList)
    } catch (error) {
      return res.sendStatus(500).send(error)
